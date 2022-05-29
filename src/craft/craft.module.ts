@@ -1,12 +1,19 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { CraftService } from './craft.service';
 import { CraftController } from './craft.controller';
-import { Craft } from './craft.entity';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Craft, CraftSchema } from './craft.schema';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Craft])],
-  providers: [CraftService],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: Craft.name,
+        schema: CraftSchema,
+      },
+    ]),
+  ],
   controllers: [CraftController],
+  providers: [CraftService],
 })
 export class CraftModule {}

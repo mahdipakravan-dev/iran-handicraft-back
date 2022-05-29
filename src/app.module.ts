@@ -1,21 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { MongooseModule } from '@nestjs/mongoose';
 import { CityModule } from './city/city.module';
-import { City } from './city/city.entity';
 import { CraftModule } from './craft/craft.module';
-import { Craft } from './craft/craft.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mongodb',
-      host: 'localhost',
-      port: 27017,
-      database: 'handicraft',
-      entities: [City, Craft],
-      logging: 'all',
-      synchronize: true,
-    }),
+    MongooseModule.forRoot('mongodb://localhost:27017/handicraft'),
     CityModule,
     CraftModule,
   ],

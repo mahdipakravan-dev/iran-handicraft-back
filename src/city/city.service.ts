@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { MongoRepository } from 'typeorm';
-import { City } from './city.entity';
+import { City, CityDocument } from './city.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Craft, CraftDocument } from '../craft/craft.schema';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CityService {
   constructor(
-    @InjectRepository(City)
-    private readonly cityRepository: MongoRepository<City>,
+    @InjectModel(City.name)
+    private cityRepository: Model<CityDocument>,
   ) {}
 
   async findAll(): Promise<City[]> {
@@ -49,7 +51,7 @@ export class CityService {
       'یزد',
     ];
     const promises = array.map((city) =>
-      this.cityRepository.save({ name: city }),
+      this.cityRepository.create({ name: city }),
     );
     return Promise.all(promises);
   }
